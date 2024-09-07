@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { LinkData, LinkTable } from "./LinkTable";
+import { faker } from "@faker-js/faker";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const links: Array<LinkData> = [
+  {
+    name: "Shopping List Summary",
+    dateShared: faker.date
+      .between({ from: "2000-01-01", to: Date.now() })
+      .toLocaleDateString(undefined, {
+        month: "long",
+        day: "2-digit",
+        year: "numeric",
+      }),
+  },
+];
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="container mx-auto">
+      <LinkTable links={links} />
+    </div>
+  );
 }
-
-export default App
