@@ -4,6 +4,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const linkQueries = {
   getLinks: queryOptions({
@@ -39,6 +40,11 @@ export const useDeleteLinkMutation = () => {
     // If the mutation fails,
     // use the context returned from onMutate to roll back
     onError: (err, id, context) => {
+      const errLinkName = context?.prevLinks?.find(
+        (link) => link.id === id
+      )?.name;
+
+      toast(`Error deleting ${errLinkName ?? "link"}`);
       queryClient.setQueryData(
         linkQueries.getLinks.queryKey,
         context?.prevLinks

@@ -46,8 +46,9 @@ export const linksHandlers = [
   }),
 
   http.delete("http://localhost:5173/links/:id", async ({ params }) => {
-    deleteCount++;
     await delay(1000);
+
+    deleteCount++;
     if (deleteCount % 3 === 0) return new HttpResponse(null, { status: 400 });
 
     const { id } = params;
