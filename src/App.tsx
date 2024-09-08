@@ -1,22 +1,20 @@
-import { LinkData, LinkTable } from "./LinkTable";
-import { faker } from "@faker-js/faker";
+import { useQuery } from "@tanstack/react-query";
+import { LinkTable } from "./LinkTable";
+import { linkQueries, useDeleteLinkMutation } from "./queries/linkQueries";
+import { Progress } from "./components/ui/progress";
 
-const links: Array<LinkData> = [
-  {
-    name: "Shopping List Summary",
-    dateShared: faker.date
-      .between({ from: "2000-01-01", to: Date.now() })
-      .toLocaleDateString(undefined, {
-        month: "long",
-        day: "2-digit",
-        year: "numeric",
-      }),
-  },
-];
 export default function App() {
+  const { data: links, isLoading: isLoadingLinks } = useQuery(
+    linkQueries.getLinks
+  );
+
+  const { mutate: deleteLink } = useDeleteLinkMutation();
+
+  if (isLoadingLinks) return <Progress indeterminate />;
+
   return (
     <div className="container mx-auto">
-      <LinkTable links={links} />
+      <LinkTable links={links ?? []} deleteLink={deleteLink} />
     </div>
   );
 }
